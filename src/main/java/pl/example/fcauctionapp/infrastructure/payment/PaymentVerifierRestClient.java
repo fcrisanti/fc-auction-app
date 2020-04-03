@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import pl.example.fcauctionapp.domain.payment.Payment;
@@ -30,7 +31,7 @@ class PaymentVerifierRestClient implements PaymentVerifierClient
     public List<Payment> getSuccessfulPayments() {
         return  restTemplate.exchange(
                 pendingTransfersUrl,
-                HttpMethod.GET,
+                HttpMethod.POST,
                 HttpEntity.EMPTY,
                 new ParameterizedTypeReference<List<Payment>>() {
                 })

@@ -24,6 +24,7 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "payment_sequence")
     @SequenceGenerator(name = "payment_sequence")
+    @JsonIgnore
     private long id;
 
     private long ownerId;

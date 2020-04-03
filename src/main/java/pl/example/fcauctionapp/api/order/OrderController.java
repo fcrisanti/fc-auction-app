@@ -25,10 +25,10 @@ public class OrderController {
         return ResponseEntity.ok(orderFacade.getAllPaymentsByOrderStatusPending());
     }
 
-//    @GetMapping(path = "/paid")
-//    public ResponseEntity<List<Payment>> getPaidOrders() {
-//        return ResponseEntity.ok(orderFacade.getAllPaymentsByOrderStatusPaid());
-//    }
+    @GetMapping(path = "/checkall")
+    public void getPaidOrders() {
+        orderFacade.getAllPaymentsFromBankAndSetOrdersAsPaid();
+    }
 
     @PostMapping(path = "/setpaid")
     public void setOrdersAsPaid(@Valid @RequestBody List<Payment> payments) {

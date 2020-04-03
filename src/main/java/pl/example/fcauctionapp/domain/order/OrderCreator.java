@@ -7,6 +7,7 @@ import pl.example.fcauctionapp.domain.auction.Auction;
 import pl.example.fcauctionapp.domain.auction.AuctionRetrievalClient;
 import pl.example.fcauctionapp.domain.auction.QuantityChanger;
 import pl.example.fcauctionapp.domain.payment.PaymentSenderClient;
+import pl.example.fcauctionapp.infrastructure.order.OrderRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +17,11 @@ class OrderCreator {
     private final CreateOrderClient createOrderClient;
     private final QuantityChanger quantityChanger;
     private final PaymentSenderClient paymentSenderClient;
+    private final OrderRepository orderRepository;
+
+    public void save(Order order) {
+        orderRepository.save(order);
+    }
 
     @Transactional
     public void createOrderUpdateAuctionOrThrow(OrderDto orderDto, Boolean payNow) {
