@@ -17,7 +17,7 @@ public class PaymentRestSender implements PaymentSenderClient {
     private final RestTemplate restTemplate;
     private final String transferBankAppUrl;
 
-    @Autowired //TODO sprawdź
+    @Autowired
     public PaymentRestSender(RestTemplate restTemplate,
                              @Value("${send.payment.bankapp.url}") String transferBankAppUrl) {
         this.restTemplate = restTemplate;

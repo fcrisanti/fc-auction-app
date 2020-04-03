@@ -37,14 +37,25 @@ public class AuctionController {
         auctionFacade.createAuction(auctionDto);
     }
 
-    @PostMapping(path = "{auctionId}/orders")
-    public void createOrder(@Min(1) @PathVariable long auctionId, @Valid @RequestBody CreateOrderRequest createOrderRequest) {
+    @PostMapping(path = "{auctionId}/order")
+    public void createPendingOrder(@Min(1) @PathVariable long auctionId, @Valid @RequestBody CreateOrderRequest createOrderRequest) {
         OrderDto orderDto = OrderDto.builder()
                 .auctionId(auctionId)
                 .clientId(createOrderRequest.getClientId())
                 .clientAccountNumber(createOrderRequest.getClientAccountNumber())
                 .quantity(createOrderRequest.getQuantity())
                 .build();
-        orderFacade.createOrder(orderDto);
+        orderFacade.createOrder(orderDto, false);
+    }
+
+    @PostMapping(path = "{auctionId}/orderAndPay")
+    public void createOrderAndPay(@Min(1) @PathVariable long auctionId, @Valid @RequestBody CreateOrderRequest createOrderRequest) {
+        OrderDto orderDto = OrderDto.builder()
+                .auctionId(auctionId)
+                .clientId(createOrderRequest.getClientId())
+                .clientAccountNumber(createOrderRequest.getClientAccountNumber())
+                .quantity(createOrderRequest.getQuantity())
+                .build();
+        orderFacade.createOrder(orderDto, true);
     }
 }

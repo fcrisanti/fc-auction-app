@@ -8,14 +8,18 @@ import lombok.NoArgsConstructor;
 
 import lombok.Setter;
 import pl.example.fcauctionapp.domain.auction.Auction;
+import pl.example.fcauctionapp.domain.payment.Payment;
 import pl.example.fcauctionapp.shared.Auditable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.math.BigDecimal;
@@ -24,7 +28,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter(AccessLevel.PRIVATE)
+@Setter
 @Builder
 @Table(name = "ORDERS")
 public class Order extends Auditable {
@@ -42,6 +46,10 @@ public class Order extends Auditable {
     private int quantity;
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "payment_id", referencedColumnName = "id")
+    private Payment payment;
 
     static Order generatePending(OrderDto orderDto, Auction auction) {
         Order order = Order.builder().auctionId(orderDto.getAuctionId())

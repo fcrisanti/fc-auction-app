@@ -18,13 +18,16 @@ class OrderCreator {
     private final PaymentSenderClient paymentSenderClient;
 
     @Transactional
-    public void createOrderAndUpdateAuction(OrderDto orderDto) {
+    public void createOrderUpdateAuctionOrThrow(OrderDto orderDto, Boolean payNow) {
         Auction auction = auctionRetrievalClient.getActiveByIdOrThrow(orderDto.getAuctionId());
         if (auction.getQuantity() >= orderDto.getQuantity()) {
             Order order = Order.generatePending(orderDto, auction);
             createOrderClient.create(order);
             quantityChanger.reduceQuantity(auction, order.getQuantity());
+        if (payNow) {
             paymentSenderClient.sendPayment(order);
+            order.setStatus(OrderStatus.PAID);
+        }
         } else {
             throw new IllegalArgumentException(String
                     .format("Order quantity is higher then auction quantity [Order quantity = %d] [Auction quantity = %d]",

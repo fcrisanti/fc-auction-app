@@ -5,4 +5,5 @@ import java.util.List;
 public interface OrderRetrievalClient {
 
     List<Order> getPendingOrders();
+    List<Order> getPaidOrders();
 }
